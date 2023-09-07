@@ -63,7 +63,7 @@ button:focus {
   --gray: #706f6b;
 }
 
-body, html{
+body, html, #root{
   background-color: var(--lighter-gray);
   color: var(--black);
   width: 100%;
