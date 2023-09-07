@@ -1,9 +1,10 @@
-
+//import MainMenu from './components/MainMenu/'
+import GameField from './components/GameField/'
 
 function App() {
   return (
     <div className="App">
-      Hello world!
+      <GameField />
     </div>
   );
 }

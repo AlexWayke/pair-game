@@ -1,0 +1,36 @@
+.menu{
+  background-color: var(--lighter-gray);
+  padding: 20px;
+  margin-top: 50px;
+  border-radius: 20px;
+  max-width: 600px;
+  flex: 1 1 auto;
+
+  &_list{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+  &_item{
+    max-width: 300px;
+    width: 100%;
+    text-align: center;
+    border: 2px solid var(--black);
+    font-size: 24px;
+    line-height: 32px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    &:hover{
+      color: var(--gray);
+      border-color: var(--gray)
+    }
+    &.disabled{
+      opacity: 0.6;
+    }
+  }
+}
