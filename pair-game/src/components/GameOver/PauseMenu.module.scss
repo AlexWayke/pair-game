@@ -22,6 +22,9 @@
 
   &_title{
     text-transform: uppercase;
+    & span{
+      text-transform: lowercase;
+    }
   }
   
   &_btn{
