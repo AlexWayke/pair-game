@@ -1,0 +1,121 @@
+.field{
+  &_wrapper{
+    padding: 0 20px;
+    max-width: 1200px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  &_header{
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 40px;
+    margin-top: 20px;
+    height: 50px;
+    @media (max-width: 769px) {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  &_counter{
+    max-width: 200px;
+    display: flex;
+    border-bottom: 2px solid var(--black);
+    font-size: 20px;
+    text-transform: uppercase;
+    line-height: 1.2;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    & input {
+      max-width: 130px;
+      font-size: 24px;
+      height: 25px;
+      border: none;
+      background-color: var(--lighter-gray);
+      padding: 4px 8px;
+      outline: none;
+    }
+    @media (max-width: 769px) {
+      font-size: 16px;
+      height: 25px;
+      border-bottom: 1px solid var(--black);
+      & input {
+        height: 18px;
+        font-size: 16px;
+        padding: 4px 8px;
+        outline: none;
+      }
+    }
+  }
+  
+  &_settings{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    &:hover{
+      transform: rotate(90deg);
+    }
+  }
+  
+  &_body{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    @media (max-width: 769px) {
+      gap: 8px;
+    }
+  }
+  
+  &_card{
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.2vw;
+    border: 2px solid var(--black);
+    width: calc((100% - 96px)/9);
+    cursor: pointer;
+    & img{
+      width: 100%;
+      height: 100%;
+    }
+    &__face{
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    @media (max-width: 769px) {
+      width: calc((100% - 40px)/6);
+    }
+  }
+}
+.card{
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.2vw;
+  border: 2px solid var(--black);
+  width: calc((100% - 96px)/9);
+  cursor: pointer;
+  & img{
+    width: 100%;
+    height: 100%;
+  }
+  &__face{
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  @media (max-width: 769px) {
+    width: calc((100% - 40px)/6);
+  }
+}

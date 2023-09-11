@@ -1,0 +1,49 @@
+.pause{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  &_wrapper{
+    position: relative;
+    z-index: 10;
+    width: 300px;
+    margin: 50px auto;
+    background-color: var(--lighter-gray);
+    border: 2px solid var(--black);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  &_title{
+    text-transform: uppercase;
+  }
+  
+  &_btn{
+    border: 2px solid var(--black);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    &:hover{
+      background-color: var(--light-gray);
+    }
+  }
+  
+  &_bg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--black);
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
