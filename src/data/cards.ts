@@ -1,4 +1,6 @@
-const cards = [
+import {CardBack} from '../models'
+
+export const cards: CardBack[] = [
   {"id":1,"img": "./img/j-clubs.png"},
   {"id":2,"img": "./img/j-diamonds.png"},
   {"id":3,"img": "./img/j-spades.png"},
@@ -18,5 +20,3 @@ const cards = [
   {"id":17,"img": "./img/a-hearts.png"},
   {"id":18,"img": "./img/a-clubs.png"},
 ]
-
-export default cards

@@ -1,6 +1,8 @@
 import styles from './PauseMenu.module.scss'
 
-function PauseMenu(props) {
+import {Pause} from '../../models'
+
+export function PauseMenu(props:Pause) {
   return(
     <div className={styles.pause}>
       <div className={styles.pause_wrapper}>
@@ -11,9 +13,7 @@ function PauseMenu(props) {
           to main menu
         </div>
       </div>
-      <div className={styles.pause_bg} onClick={() => {props.closeSettings(); props.play(true)}}></div>
+      <div className={styles.pause_bg} onClick={() => {props.closeSettings(); props.play()}}></div>
     </div>
   )
 }
-
-export default PauseMenu

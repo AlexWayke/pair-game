@@ -1,20 +1,19 @@
 import styles from './MainMenu.module.scss'
 
+import {Main} from '../../models'
 
-function MainMenu(props) {
+export function MainMenu(props: Main) {
   const newGame = () => {
+    props.startGame()
     localStorage.clear()
   }
   const isContinue = localStorage.length > 0 ? true : false;
   return(
     <div className={styles.menu}>
       <ul className={styles.menu_list}>
-        {isContinue ? <li className={styles.menu_item} onClick={props.startGame}>продолжить</li> : <li className={styles.menu_item + ' ' + styles.disabled}>продолжить</li>}
+        {isContinue ? <li className={styles.menu_item} onClick={() => props.startGame()}>продолжить</li> : <li className={styles.menu_item + ' ' + styles.disabled}>продолжить</li>}
         <li className={styles.menu_item} onClick={() => {props.startGame(); newGame()}}>новая игра</li>
-        {/* <li className={styles.menu_item}>таблица лидеров</li> */}
       </ul>
     </div>
   )
 }
-
-export default MainMenu

@@ -1,6 +1,8 @@
 import styles from './PauseMenu.module.scss'
 
-function PauseMenu(props) {
+import {Over} from '../../models'
+
+export function GameOver(props:Over) {
   const clearStorage = () => {localStorage.clear()}
   return(
     <div className={styles.pause}>
@@ -14,9 +16,7 @@ function PauseMenu(props) {
           to main menu
         </div>
       </div>
-      <div className={styles.pause_bg} onClick={() => {props.closeSettings(); props.play(true)}}></div>
+      <div className={styles.pause_bg} onClick={() => {props.gotoMainMenu()}}></div>
     </div>
   )
 }
-
-export default PauseMenu

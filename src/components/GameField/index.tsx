@@ -1,31 +1,35 @@
 import styles from './GameField.module.scss';
-import cards from './cards.js';
+import {cards} from '../../data/cards';
 import React from 'react';
-import PauseMenu from '../PauseMenu'
-import GameOver from '../GameOver'
+import {PauseMenu} from '../PauseMenu'
+import {GameOver} from '../GameOver'
 
+import {Card} from '../../models'
+import {Field} from '../../models'
 
-function GameField(props) {
+export function GameField (props:Field) {
   const newGame = () => {
-    let combination = [];
+    let combination:Card[] = [];
     for(let i=0; i < props.difficult; i++) {
-      combination.push(i);
+      combination.push({cardVal: i,cardState:false,opened:false});
     }
     combination = combination.concat(combination).sort( () => .5 - Math.random() );
-    combination = combination.map((num) => {return {cardVal:num,cardState:false}})
+
     localStorage.setItem("currCombination", JSON.stringify(combination))
     localStorage.setItem("currSteps", JSON.stringify(0))
     localStorage.setItem("currTime", JSON.stringify(0))
     return combination
   }
-  
-  const parsedCombination = JSON.parse(localStorage.getItem('currCombination'));
-  const parsedSteps = JSON.parse(localStorage.getItem('currSteps'));
-  const parsedTime = JSON.parse(localStorage.getItem('currTime'));
-  const order = parsedCombination !== null ? parsedCombination : newGame();
+
+  const steps:(string|null) = localStorage.getItem('currSteps')
+  const parsedSteps:number = steps !== null ? JSON.parse(steps) : 0;
+  const time:(string|null) = localStorage.getItem('currTime');
+  const parsedTime:number = time ? JSON.parse(time) : 0;
+  const combination = localStorage.getItem('currCombination');
+  const parsedCombination:Card[] = combination !== null ? JSON.parse(combination) : newGame();
   
   const [gameOver, setGameOver] = React.useState(false);
-  const [cardStates, setCardStates] = React.useState(order);
+  const [cardStates, setCardStates] = React.useState(parsedCombination);
   const [isIterable, setIsIterable] = React.useState(true);
   let [timerValue, setTimerValue] = React.useState(parsedTime);
   let [stepsValue, setStepsValue] = React.useState(parsedSteps);
@@ -42,51 +46,64 @@ function GameField(props) {
     localStorage.setItem("currTime", JSON.stringify(timerValue))
   }
   
-  const showCard = (event) => {
-    if(isIterable) {
+  const showCard = (event:any) => {
+    if(isIterable && event.target!== null) {
       const card = event.target.closest('[data-element="card"]');
-      const cardIndex = card.getAttribute('data-index');
+      const cardIndex:(number|null) = card !== null ? Number(card.getAttribute('data-index')) : null;
       setStepsValue(stepsValue + 1)
       
-      order[cardIndex].cardState = true;
-      localStorage.setItem("currCombination", JSON.stringify(order))
-      localStorage.setItem("currSteps", JSON.stringify(stepsValue + 1))
+      if (cardIndex !== null) {
+        parsedCombination[cardIndex].cardState = true;
+        localStorage.setItem("currCombination", JSON.stringify(parsedCombination))
+        localStorage.setItem("currSteps", JSON.stringify(stepsValue + 1))
+      }
       
-      setCardStates(JSON.parse(localStorage.getItem('currCombination')))
+      const combination = localStorage.getItem('currCombination');
+      setCardStates(combination !== null ? JSON.parse(combination): '');
     }
   }
   
   const checkPair = () => {
     if(isIterable) {
-      const cardStates = JSON.parse(localStorage.getItem('currCombination'));
-      const openedCards = cardStates.filter((card) => card.cardState)
+      const states = localStorage.getItem('currCombination')
+      const cardStates = states !== null ? JSON.parse(states) : '';
+      let openedCards = cardStates.filter((card:Card) => card.cardState)
       
       if(openedCards.length > 1) {
         setIsIterable(false);
         
         if(openedCards[0].cardVal === openedCards[1].cardVal) {
-          const newCardStates = cardStates.filter((card) => {return card.cardVal !== openedCards[0].cardVal});
-          console.log(newCardStates)
+          cardStates.forEach((card:Card) => {
+            if(card.cardVal === openedCards[1].cardVal){
+                card.opened = true;
+            }
+          })
+          openedCards = [];
           
-          if (newCardStates.length > 0){
+          let counter:number = 0;
+          cardStates.forEach((card:Card) =>{if(!card.opened){counter++}})
+          if (counter > 0){
             setTimeout(() => {
               setIsIterable(true);
+              cardStates.forEach((card:Card) => {card.cardState = false})
               
-              localStorage.setItem("currCombination", JSON.stringify(newCardStates))
-              setCardStates(JSON.parse(localStorage.getItem('currCombination')));
+              localStorage.setItem("currCombination", JSON.stringify(cardStates))
+              const combination = localStorage.getItem('currCombination');
+              setCardStates(combination !== null ? JSON.parse(combination): '');
             },1500)
           } else {
             Win()
           }
         } else {
-          cardStates.forEach((card)=> {
+          cardStates.forEach((card:Card)=> {
             card.cardState = false
           })
           setTimeout(() => {
             setIsIterable(true);
             
             localStorage.setItem("currCombination", JSON.stringify(cardStates))
-            setCardStates(JSON.parse(localStorage.getItem('currCombination')));
+            const combination = localStorage.getItem('currCombination');
+            setCardStates(combination !== null ? JSON.parse(combination): '');
           },1500)
         }
       }
@@ -116,11 +133,14 @@ function GameField(props) {
         </div>
       </div>
       <div data-element="wrapper" className={styles.field_body} onClick={checkPair}>
-        {cardStates.map((card, index) => {
+        {cardStates.map((card: Card, index: number) => {
           return(
-            <div key={index} data-value={card.cardVal} data-element="card" data-index={index} className={styles.card} onClick={showCard}>
-              {card.cardState && <img className={styles.card__face} src={cards[card.cardVal].img} alt="card"></img>}
-              <img className={styles.card__shirt} src='./img/shirt.png' alt="shirt"></img>
+            <div key={index} data-value={card.cardVal} data-element="card" data-index={index} className={styles.card}>
+              {!card.opened && <span>
+                {card.cardState && <img className={styles.card__face} src={cards[card.cardVal].img} alt="card"></img>}
+                <img className={styles.card__shirt} src='./img/shirt.png' alt="shirt" onClick={showCard}></img>
+              </span>}
+              {card.opened && <img className={styles.card__shirt} src='./img/empty.png' alt="shirt"></img>}
             </div>
             )
         })}
@@ -128,7 +148,7 @@ function GameField(props) {
       {settingsOpened && <PauseMenu 
         closeSettings={() => setSettingsOpened(false)}
         gotoMainMenu={props.gotoMainMenu}
-        play={setTimerPlay}
+        play={() => setTimerPlay(true)}
       />}
       {gameOver && <GameOver
         gotoMainMenu={props.gotoMainMenu}
@@ -138,5 +158,3 @@ function GameField(props) {
     </div>
   )
 }
-
-export default GameField
