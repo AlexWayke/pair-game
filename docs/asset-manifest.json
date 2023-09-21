@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/pair-game/static/css/main.bb019b72.css",
+    "main.js": "/pair-game/static/js/main.89861022.js",
+    "index.html": "/pair-game/index.html",
+    "main.bb019b72.css.map": "/pair-game/static/css/main.bb019b72.css.map",
+    "main.89861022.js.map": "/pair-game/static/js/main.89861022.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bb019b72.css",
+    "static/js/main.89861022.js"
+  ]
+}
